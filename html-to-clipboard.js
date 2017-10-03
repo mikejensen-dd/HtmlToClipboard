@@ -1,6 +1,6 @@
-/* exported html_to_clipboard */
+/* exported HtmlToClipboard */
 
-function html_to_clipboard(options) {
+function HtmlToClipboard(options) {
 	// default settings
 	let settings = {
 		limitTarget: null,
