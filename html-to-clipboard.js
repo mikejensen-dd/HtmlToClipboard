@@ -2,33 +2,34 @@
 
 function html_to_clibpoard(options) {
 	// default settings
-	var settings = {
+	let settings = {
 		limitTarget: null,
 		listenOnCopy: false,
 		raw: false,
 	};
     
 	// use this flag to avoid recursively copying
-	var justCopied = false;
+	let justCopied = false;
 
 	// actual settings
 	if (typeof options === 'object') {
-		for (option in options) {
+		for (let option in options) {
 			settings[option] = options[option];
 		}
 	}
 
-	if (typeof settings.raw !== 'boolean')
+	if (typeof settings.raw !== 'boolean') {
 		throw '\'raw\' option must be boolean';
-	if (settings.limitTarget && (typeof settings.limitTarget !== 'string' && !(settings.limitTarget instanceof HTMLElement)))
+	}
+	if (settings.limitTarget && (typeof settings.limitTarget !== 'string' && !(settings.limitTarget instanceof HTMLElement))) {
 		throw '\'target\' option must be either a selector or a DOM node';
-
+	}
 
 	// find target element either from selector string or from element
-	var getTarget = function(limitTarget) {
-		var target = limitTarget;
+	let getTarget = function(limitTarget) {
+		let target = limitTarget;
 		if (typeof target === 'string') {
-			var el = document.querySelector(target);
+			let el = document.querySelector(target);
 			if (el === null) {
 				throw 'Element with selector \'' + target + '\' does not exist in the DOM';
 			} else {
@@ -44,36 +45,38 @@ function html_to_clibpoard(options) {
 	};
 
 	// get the current selection, possibly limited to target element
-	var getSelection = function (limitTarget) {
-		var selection = window.getSelection();
+	let getSelection = function (limitTarget) {
+		let selection = window.getSelection();
 
 		// limit selection to target
 		if (limitTarget) {
-			var target = getTarget(limitTarget);
+			let target = getTarget(limitTarget);
             
 			// don't limit the selection in standard inputs
 			if (typeof target.selectionStart !== 'undefined') {
 				return target.value.substring(target.selectionStart, target.selectionEnd);
 			}
 
-			for (var i = 0; i < selection.rangeCount; i++) {
-				var range = selection.getRangeAt(i);
-				var sliceStart = 0;
-				var sliceEnd = null;
+			for (let i = 0; i < selection.rangeCount; i++) {
+				let range = selection.getRangeAt(i);
+				let sliceStart = 0;
+				let sliceEnd = null;
 				if (range.intersectsNode(target)) {
-					var lengthBefore = range.toString().length;
+					let lengthBefore = range.toString().length;
 					range.setStart(target, 0);
-					var lengthAfter = range.toString().length;
-					if (lengthAfter > lengthBefore)
+					let lengthAfter = range.toString().length;
+					if (lengthAfter > lengthBefore) {
 						sliceStart = lengthAfter - lengthBefore;
+					}
 
 					lengthBefore = range.toString().length;
 					range.setEnd(target, target.childNodes.length);
 					lengthAfter = range.toString().length;
-					if (lengthAfter > lengthBefore)
+					if (lengthAfter > lengthBefore) {
 						sliceEnd = lengthBefore;
-					else
+					} else {
 						sliceEnd = lengthAfter;
+					}
 
 					return range.toString().substr(sliceStart, sliceEnd);
 				}
@@ -91,12 +94,12 @@ function html_to_clibpoard(options) {
 		}
 	};
 
-
-	var copyToClipboard = function (data, raw) {
-		if (typeof raw !== 'boolean')
+	let copyToClipboard = function (data, raw) {
+		if (typeof raw !== 'boolean') {
 			raw = true;
+		}
 
-		var tmpEl = document.createElement(raw ? 'textarea' : 'div');
+		let tmpEl = document.createElement(raw ? 'textarea' : 'div');
 		tmpEl.style.opacity = 0;
 		tmpEl.style.position = 'absolute';
 		tmpEl.style.pointerEvents = 'none';
@@ -105,20 +108,20 @@ function html_to_clibpoard(options) {
 		tmpEl.innerHTML = data;
 		document.body.appendChild(tmpEl);
 
-		var focused = document.activeElement;
+		let focused = document.activeElement;
 		tmpEl.focus();
 
 		if (raw) {
 			tmpEl.select();
 		} else {
 			window.getSelection().removeAllRanges();  
-			var range = document.createRange(); 
+			let range = document.createRange(); 
 			range.setStartBefore(tmpEl.firstChild);
 			range.setEndAfter(tmpEl.lastChild);
 			window.getSelection().addRange(range);
 		}
 
-		var success = false;
+		let success = false;
 		try {
 			justCopied = true;
 			setTimeout(function () {
@@ -128,8 +131,9 @@ function html_to_clibpoard(options) {
 		} catch (err) {
 			console.error(err);
 		}
-		if (!success)
+		if (!success) {
 			console.error('execCommand failed!');
+		}
 
 		window.getSelection().removeAllRanges();  
 		document.body.removeChild(tmpEl);
@@ -137,15 +141,14 @@ function html_to_clibpoard(options) {
 		focused.focus();
 	};
 
-
-
 	// listen on copy event
 	if (settings.listenOnCopy) {
-		var eventTarget = document;
-		if (settings.limitTarget)
+		let eventTarget = document;
+		if (settings.limitTarget) {
 			eventTarget = getTarget(settings.limitTarget);
+		}
 
-		var self = this;
+		let self = this;
 		eventTarget.addEventListener('copy', function (e) {
 			if (!justCopied) {
 				e.preventDefault();
@@ -154,12 +157,13 @@ function html_to_clibpoard(options) {
 		});
 	}
 
-
 	this.copy = function(data) {
-		if (typeof data !== 'string')
-			var data = getSelection(settings.limitTarget);
+		if (typeof data !== 'string') {
+			data = getSelection(settings.limitTarget);
+		}
 
-		if (data !== '')
+		if (data !== '') {
 			copyToClipboard(data, settings.raw);
+		}
 	};
 }

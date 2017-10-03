@@ -6,32 +6,15 @@ module.exports = {
 	},
 	"extends": "eslint:recommended",
 	"rules": {
-		"comma-dangle": [
-			"warn", 
-			"always-multiline"
-		],
-		"indent": [
-			"warn",
-			"tab"
-		],
-		"linebreak-style": [
-			"off"
-		],
-		"no-console": [
-			"error", { 
-				allow: [
-					"warn", 
-					"error"
-				] 
-			}
-		],
-		"quotes": [
-			"warn",
-			"single"
-		],
-		"semi": [
-			"warn",
-			"always"
-		]
+		"brace-style": "warn",
+		"comma-dangle": ["warn", "always-multiline"],
+		"curly": "error",
+		"indent": ["warn","tab"],
+		"linebreak-style": ["off"],
+		"no-console": ["error", {allow: ["warn", "error"]}],
+		"no-multiple-empty-lines": ["warn", {"max": 1}],
+		"no-var": "warn",
+		"quotes": ["warn","single"],
+		"semi": ["warn","always"]
 	}
 };
