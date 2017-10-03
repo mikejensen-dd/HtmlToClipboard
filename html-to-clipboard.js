@@ -31,7 +31,7 @@ function html_to_clibpoard(options) {
 		if (typeof target === 'string') {
 			let el = document.querySelector(target);
 			if (el === null) {
-				throw 'Element with selector \'' + target + '\' does not exist in the DOM';
+				throw `Element with selector '${  target  }' does not exist in the DOM`;
 			} else {
 				return el;
 			}

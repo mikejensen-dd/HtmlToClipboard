@@ -8,12 +8,13 @@ module.exports = {
 	"rules": {
 		"brace-style": "warn",
 		"comma-dangle": ["warn", "always-multiline"],
-		"curly": "error",
+		"curly": "warn",
 		"indent": ["warn","tab"],
 		"linebreak-style": ["off"],
-		"no-console": ["error", {allow: ["warn", "error"]}],
+		"no-console": ["warn", {allow: ["warn", "error"]}],
 		"no-multiple-empty-lines": ["warn", {"max": 1}],
 		"no-var": "warn",
+		"prefer-template": "warn",
 		"quotes": ["warn","single"],
 		"semi": ["warn","always"]
 	}
