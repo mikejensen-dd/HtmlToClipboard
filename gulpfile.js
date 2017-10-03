@@ -1,3 +1,5 @@
+/* globals require */
+
 //gulp
 const gulp = require('gulp');
 
@@ -28,7 +30,8 @@ gulp.task('build', function(cb) {
 	$.pump([
 		gulp.src('./html-to-clipboard.js'),
 		minify(config.uglify),
-		gulp.dest('./dist/'),
+		$.rename({ suffix: '.min' }),
+		gulp.dest('./'),
 	],
 	cb
 	);
