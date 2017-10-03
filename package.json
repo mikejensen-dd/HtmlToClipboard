@@ -1,0 +1,25 @@
+{
+  "name": "html-to-clipboard",
+  "version": "0.0.1",
+  "description": "Small JavaScript function to copy rich text or HTML code to clipboard.",
+  "main": "html-to-clipboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikejensen-dd/HtmlToClipboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikejensen-dd/HtmlToClipboard/issues"
+  },
+  "homepage": "https://github.com/mikejensen-dd/HtmlToClipboard#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-uglify": "^3.0.0",
+    "uglify-es": "^3.1.3"
+  }
+}
